@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { Select as SelectPrimitive } from '@base-ui/react/select'
-import { cn } from 'cn'
+import { cn } from '@/lib/utils'
 import { HugeiconsIcon } from '@hugeicons/react'
 import {
-  UnfoldMoreIcon,
   Tick02Icon,
   ArrowUp01Icon,
   ArrowDown01Icon,
@@ -25,7 +24,7 @@ function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
   return (
     <SelectPrimitive.Value
       data-slot="select-value"
-      className={cn('flex flex-1 text-left', className)}
+      className={cn('flex flex-1 text-left text-base', className)}
       {...props}
     />
   )
@@ -44,7 +43,7 @@ function SelectTrigger({
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        "border-input bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground dark:hover:bg-input/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 flex w-fit items-center justify-between gap-1.5 rounded-4xl border px-3 py-2 text-sm whitespace-nowrap transition-colors outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-[3px] data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "border-input focus-visible:border-primary focus-visible:ring-primary aria-invalid:border-destructive aria-invalid:ring-destructive data-placeholder:text-muted-foreground placeholder:text-muted-foreground dark:hover:bg-input/50 dark:aria-invalid:border-destructive dark:aria-invalid:ring-destructive flex w-fit items-center justify-between gap-1.5 rounded-4xl border bg-white px-3 py-2 text-sm whitespace-nowrap transition-colors outline-none placeholder:text-base focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-1 data-[size=default]:h-12 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
@@ -53,7 +52,7 @@ function SelectTrigger({
       <SelectPrimitive.Icon
         render={
           <HugeiconsIcon
-            icon={UnfoldMoreIcon}
+            icon={ArrowDown01Icon}
             strokeWidth={2}
             className="text-muted-foreground pointer-events-none size-4"
           />
