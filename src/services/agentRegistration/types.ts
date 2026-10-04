@@ -25,11 +25,8 @@ export type CitiesItem = {
 
 export type InsuranceBranchesList = InsuranceBranchItem[]
 export type InsuranceBranchItem = {
-  id: number
+  id: string
   name: string
-  insurance: number
-  province: number
-  county: number
 }
 export type InsuranceBranchesResponse = {
   status_code: number

@@ -1,0 +1,15 @@
+export const dict = {
+  agencyCode: 'کد نمایندگی',
+  province: 'استان',
+  city: 'شهر',
+  address: 'آدرس',
+  insuranceBranch: 'شعبه بیمه',
+  typeOfAgency: 'نوع نمایندگی',
+  real: 'حقیقی',
+  legal: 'حقوقی',
+  agencyName: 'نام نمایندگی',
+  register: 'ثبت نام',
+  landlinePhone: 'تلفن ثابت',
+  code: 'کد',
+  registering: 'در حال ثبت...',
+}

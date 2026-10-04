@@ -16,8 +16,8 @@ import {
 import { dict } from './dict'
 
 export type SelectOption = {
-  value: string
-  label: string
+  id: string
+  name: string
 }
 
 type FormSelectProps<T extends FieldValues> = {
@@ -80,8 +80,8 @@ function FormSelect<T extends FieldValues>({
                 </div>
               ) : options.length > 0 ? (
                 options.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
+                  <SelectItem key={option.id} value={option.id}>
+                    {option.name}
                   </SelectItem>
                 ))
               ) : (
