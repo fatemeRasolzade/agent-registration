@@ -5,21 +5,37 @@ import {
 } from '@tanstack/react-query'
 import { useDebounce } from '@/hooks/useDebounce'
 import { apis, cacheKeys, types } from '.'
+import { useEffect } from 'react'
+import axios from 'axios'
+import { showWarningToast } from '@/lib/toast'
 
 export const useCheckAgencyCode = (
   agentCode: string,
-  options?: Omit<
-    UseQueryOptions<types.CheckAgencyCode>,
-    'queryKey' | 'queryFn'
-  >,
+  options?: UseQueryOptions<types.CheckAgencyCode>,
 ) => {
   const debouncedAgentCode = useDebounce(agentCode.trim(), 1000)
-  return useQuery({
+
+  const query = useQuery({
     queryKey: [cacheKeys.checkAgencyCode, debouncedAgentCode],
     queryFn: () => apis.checkAgencyCode(debouncedAgentCode),
     enabled: Boolean(debouncedAgentCode),
     ...options,
+    retry: false,
   })
+
+  useEffect(() => {
+    if (!query.error) return
+
+    const message = axios.isAxiosError<types.CheckAgencyCode>(query.error)
+      ? query.error.response?.data?.error_details?.fa_details
+      : undefined
+
+    if (message) {
+      showWarningToast(message!)
+    }
+  }, [query.error])
+
+  return query
 }
 
 export const useGetProvinces = (
