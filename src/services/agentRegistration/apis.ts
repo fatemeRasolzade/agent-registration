@@ -14,7 +14,7 @@ export const checkAgencyCode = async (
 }
 
 export const getProvinces = async (): Promise<types.ProvinceList> => {
-  const { data } = await api.get<types.ProvinceList>('/base/provinces_wop')
+  const { data } = await api.get<types.ProvinceList>('/base/provinces_wop/')
   return data
 }
 
