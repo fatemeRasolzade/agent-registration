@@ -49,7 +49,6 @@ function FormInput<T extends FieldValues>({
   return (
     <Field data-invalid={!!error} className={className}>
       {label && <FieldLabel htmlFor={String(name)}>{label}</FieldLabel>}
-
       <div className="relative">
         <Input
           id={String(name)}
@@ -64,12 +63,10 @@ function FormInput<T extends FieldValues>({
             if (onlyNumbers) {
               event.target.value = event.target.value.replace(/\D/g, '')
             }
-
             registration.onChange(event)
             onChange?.(event)
           }}
         />
-
         {isShowVerify && !error && (
           <span
             aria-hidden="true"

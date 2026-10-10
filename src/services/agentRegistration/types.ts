@@ -3,11 +3,19 @@ export type GetInsuranceBranchesParams = {
   province: string
 }
 
+export type ErrorDetails = {
+  type: string
+  code: string
+  detail: string
+  attr: string
+  fa_details: string
+}
+
 export type CheckAgencyCode = {
   status_code: number
   message: string
   is_success: boolean
-  error_details: string
+  error_details: ErrorDetails
   response: string
 }
 
@@ -48,11 +56,16 @@ export type AgentRegistrationBody = {
   phone: string
   phone_number: string
   province: string
-  Name?: string
+  name?: string
 }
 
 export type AgentRegistrationResponse = {
   status_code: number
   message: string
   is_success: boolean
+  error_details: ErrorDetails
+  response: {
+    refresh: string
+    access: string
+  }
 }
