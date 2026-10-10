@@ -49,8 +49,8 @@ function FormCombobox<T extends FieldValues>({
   })
 
   const normalizedOptions = options.map((option) => ({
-    id: String(option.id),
-    name: option.name,
+    id: String(option?.id),
+    name: option?.name,
   }))
 
   return (
@@ -65,8 +65,8 @@ function FormCombobox<T extends FieldValues>({
         }
 
         const handleSelect = (option: ComboboxOption) => {
-          field.onChange(String(option.id))
-          searchField.field.onChange(option.name)
+          field.onChange(String(option?.id))
+          searchField.field.onChange(option?.name)
           setIsOpen(false)
         }
 
@@ -115,7 +115,7 @@ function FormCombobox<T extends FieldValues>({
                     ) : normalizedOptions.length > 0 ? (
                       normalizedOptions.map((option) => (
                         <button
-                          key={option.id}
+                          key={option?.id}
                           type="button"
                           className="hover:bg-accent hover:text-accent-foreground flex w-full cursor-pointer items-center rounded-lg px-3 py-2 text-right text-sm outline-none"
                           onMouseDown={(event) => {
@@ -125,7 +125,7 @@ function FormCombobox<T extends FieldValues>({
                             handleSelect(option)
                           }}
                         >
-                          {option.name}
+                          {option?.name}
                         </button>
                       ))
                     ) : (

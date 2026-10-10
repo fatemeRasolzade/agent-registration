@@ -44,8 +44,8 @@ function FormSelect<T extends FieldValues>({
   onValueChange,
 }: FormSelectProps<T>) {
   const normalizedOptions = options.map((option) => ({
-    id: String(option.id),
-    name: option.name,
+    id: String(option?.id),
+    name: option?.name,
   }))
 
   return (
@@ -63,8 +63,8 @@ function FormSelect<T extends FieldValues>({
               onValueChange?.(id)
             }}
             items={normalizedOptions.map((option) => ({
-              label: option.name,
-              value: option.id,
+              label: option?.name,
+              value: option?.id,
             }))}
             disabled={disabled}
           >
@@ -88,8 +88,8 @@ function FormSelect<T extends FieldValues>({
                 </div>
               ) : normalizedOptions.length > 0 ? (
                 normalizedOptions.map((option) => (
-                  <SelectItem key={option.id} value={option.id}>
-                    {option.name}
+                  <SelectItem key={option?.id} value={option?.id}>
+                    {option?.name}
                   </SelectItem>
                 ))
               ) : (
