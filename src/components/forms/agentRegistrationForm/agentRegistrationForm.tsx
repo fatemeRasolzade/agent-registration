@@ -26,6 +26,7 @@ import {
   useRegisterAgent,
 } from '@/services/agentRegistration'
 import { dict } from './dict'
+import { showSuccessToast } from '@/lib/toast'
 
 function AgentForm() {
   const {
@@ -34,24 +35,23 @@ function AgentForm() {
     handleSubmit,
     setValue,
     clearErrors,
-    resetField,
     formState: { errors, isSubmitting },
   } = useForm<AgentFormValues>({
     resolver: zodResolver(agentSchema),
     defaultValues: {
+      address: '',
+      agency_type: 'real',
       agent_code: '',
+      insurance_branch: '',
+      city_code: '',
+      county: '',
       first_name: '',
       last_name: '',
-      agency_type: 'real',
-      Name: '',
-      province: '',
-      county: '',
-      city_code: '',
-      insurance_branch: '',
       phone: '',
+      province: '',
       phone_number: '',
-      address: '',
       insurance_branch_search: '',
+      name: '',
     },
   })
 
@@ -81,30 +81,28 @@ function AgentForm() {
   } = useGetInsuranceBranches(province, insuranceBranchSearch)
   const { mutate } = useRegisterAgent()
 
-  const onSubmit: SubmitHandler<AgentFormValues> = async (data) => {
-    const payload = {
-      address: data.address,
-      agency_type: data.agency_type,
-      agent_code: data.agent_code,
-      city_code: data.city_code,
-      county: data.county,
-      first_name: data.first_name,
-      insurance_branch: data.insurance_branch,
-      last_name: data.last_name,
-      phone: data.phone,
-      phone_number: data.phone_number,
-      province: data.province,
-
-      ...(data.agency_type === 'legal' && {
-        Name: data.Name,
-      }),
-    }
-    mutate(payload)
+  const onSubmit: SubmitHandler<AgentFormValues> = (data) => {
+    mutate(
+      {
+        ...data,
+        first_name: dict.firstName,
+        last_name: dict.lastName,
+        phone_number: '09385935633',
+        name: agencyType === 'legal' ? data.name : dict.firstName,
+      },
+      {
+        onSuccess: (response) => {
+          if (response.is_success) {
+            showSuccessToast(dict.successfullyRegistered)
+          }
+        },
+      },
+    )
   }
 
   return (
     <form
-      className="relative mx-6 rounded-4xl bg-white p-4 shadow"
+      className="relative mx-6 max-w-160 rounded-4xl bg-white p-4 shadow md:mx-auto md:max-w-105"
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
@@ -124,11 +122,9 @@ function AgentForm() {
           placeholder={dict.province}
           options={provincesList}
           onValueChange={() => {
-            resetField('county')
-            resetField('city_code')
-            resetField('insurance_branch')
-
-            clearErrors(['county', 'city_code', 'insurance_branch'])
+            setValue('county', '')
+            setValue('insurance_branch', '')
+            setValue('insurance_branch_search', '')
           }}
         />
         <FormSelect
@@ -187,8 +183,8 @@ function AgentForm() {
                 const type = value as AgentFormValues['agency_type']
                 setValue('agency_type', type)
                 if (type === 'real') {
-                  resetField('Name')
-                  clearErrors('Name')
+                  setValue('name', '')
+                  clearErrors('name')
                 }
               }}
               className="flex gap-6"
@@ -218,12 +214,18 @@ function AgentForm() {
         {agencyType === 'legal' && (
           <FormInput
             register={register}
-            error={errors.Name}
-            name="Name"
+            error={errors.name}
+            name="name"
             placeholder={dict.agencyName}
           />
         )}
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={
+            isAgencyCode?.is_success ? (isSubmitting ? true : false) : true
+          }
+        >
           {isSubmitting ? dict.registering : dict.register}
         </Button>
       </FieldGroup>

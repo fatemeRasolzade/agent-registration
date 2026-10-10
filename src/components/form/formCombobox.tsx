@@ -6,6 +6,8 @@ import {
   type FieldValues,
   type Path,
 } from 'react-hook-form'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Search01Icon } from '@hugeicons/core-free-icons'
 
 import { Field, FieldError, FieldLabel } from '@components/ui/field'
 import { Input } from '@components/ui/input'
@@ -46,6 +48,11 @@ function FormCombobox<T extends FieldValues>({
     control,
   })
 
+  const normalizedOptions = options.map((option) => ({
+    id: String(option.id),
+    name: option.name,
+  }))
+
   return (
     <Controller
       name={name}
@@ -58,7 +65,7 @@ function FormCombobox<T extends FieldValues>({
         }
 
         const handleSelect = (option: ComboboxOption) => {
-          field.onChange(option.id)
+          field.onChange(String(option.id))
           searchField.field.onChange(option.name)
           setIsOpen(false)
         }
@@ -67,10 +74,10 @@ function FormCombobox<T extends FieldValues>({
           <Field data-invalid={fieldState.invalid}>
             {label && <FieldLabel htmlFor={String(name)}>{label}</FieldLabel>}
 
-            <div className="relative">
+            <div className={`relative ${disabled ? 'cursor-not-allowed' : ''}`}>
               <Input
                 id={String(name)}
-                value={searchField.field.value || ''}
+                value={String(searchField.field.value ?? '')}
                 placeholder={placeholder}
                 disabled={disabled}
                 autoComplete="off"
@@ -91,7 +98,13 @@ function FormCombobox<T extends FieldValues>({
                   }, 150)
                 }}
               />
-
+              <HugeiconsIcon
+                icon={Search01Icon}
+                size={16}
+                strokeWidth={1.8}
+                aria-hidden="true"
+                className="text-muted-foreground pointer-events-none absolute end-3 top-1/2 -translate-y-1/2"
+              />
               {isOpen && !disabled && (
                 <div className="bg-popover text-popover-foreground absolute inset-x-0 top-full z-50 mt-1 overflow-hidden rounded-4xl shadow-md">
                   <div className="max-h-60 overflow-y-auto p-1">
@@ -99,8 +112,8 @@ function FormCombobox<T extends FieldValues>({
                       <div className="flex items-center justify-center px-3 py-3">
                         <div className="border-muted border-t-primary size-4 animate-spin rounded-full border-2" />
                       </div>
-                    ) : options.length > 0 ? (
-                      options.map((option) => (
+                    ) : normalizedOptions.length > 0 ? (
+                      normalizedOptions.map((option) => (
                         <button
                           key={option.id}
                           type="button"

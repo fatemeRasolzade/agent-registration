@@ -56,11 +56,16 @@ export type AgentRegistrationBody = {
   phone: string
   phone_number: string
   province: string
-  Name?: string
+  name?: string
 }
 
 export type AgentRegistrationResponse = {
   status_code: number
   message: string
   is_success: boolean
+  error_details: ErrorDetails
+  response: {
+    refresh: string
+    access: string
+  }
 }

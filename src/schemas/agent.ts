@@ -3,27 +3,27 @@ import { dict } from './dict'
 
 export const agentSchema = z
   .object({
-    agent_code: z.string().trim().min(1, dict.agentCodeRequired),
-    first_name: z.string().trim().min(1, dict.firstNameRequired),
-    last_name: z.string().trim().min(1, dict.lastNameRequired),
+    address: z.string().trim().min(1, dict.addressRequired),
     agency_type: z.enum(['real', 'legal'], {
       message: dict.agencyTypeRequired,
     }),
-    Name: z.string().trim(),
-    province: z.string().min(1, dict.provinceRequired),
-    county: z.string().min(1, dict.cityRequired),
-    city_code: z.string().min(1, dict.cityCodeRequired),
+    agent_code: z.string().trim().min(1, dict.agentCodeRequired),
     insurance_branch: z.string().min(1, dict.insuranceBranchRequired),
+    city_code: z.string().min(1, dict.cityCodeRequired),
+    county: z.string().min(1, dict.cityRequired),
+    first_name: z.string(),
+    last_name: z.string(),
     phone: z.string().trim().min(1, dict.phoneRequired),
-    phone_number: z.string().trim().min(1, dict.phoneNumberRequired),
+    province: z.string().min(1, dict.provinceRequired),
+    phone_number: z.string(),
     insurance_branch_search: z.string(),
-    address: z.string().trim().min(1, dict.addressRequired),
+    name: z.string().trim(),
   })
   .superRefine((data, ctx) => {
-    if (data.agency_type === 'legal' && !data.Name) {
+    if (data.agency_type === 'legal' && !data.name) {
       ctx.addIssue({
         code: 'custom',
-        path: ['Name'],
+        path: ['name'],
         message: dict.agencyNameRequired,
       })
     }

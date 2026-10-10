@@ -12,4 +12,7 @@ export const dict = {
   landlinePhone: 'تلفن ثابت',
   code: 'کد',
   registering: 'در حال ثبت...',
+  firstName: 'فاطمه',
+  lastName: 'رسول زاده ',
+  successfullyRegistered: 'با موفقیت ثبت نام شدید',
 }
